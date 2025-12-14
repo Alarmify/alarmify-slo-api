@@ -66,8 +66,21 @@ func RegisterHealthRoutes(r *Router, handler *handlers.HealthHandler) {
 func RegisterAPIRoutes(r *Router, handler *handlers.APIHandler) {
 	v1 := r.Group("/api/v1")
 	{
-		// TODO: Add API-specific routes here
+		// API info
 		v1.GET("/", handler.GetInfo)
+		
+		// /slos routes
+		slos := v1.Group("/slos")
+		{
+			slos.GET("/", handler.ListSLOs)
+			slos.POST("/", handler.CreateSLO)
+			slos.GET("/:id", handler.GetSLO)
+			slos.PUT("/:id", handler.UpdateSLO)
+			slos.DELETE("/:id", handler.DeleteSLO)
+			slos.GET("/:id/calculation", handler.GetSLOCalculation)
+			slos.GET("/:id/report", handler.GetSLOReport)
+			slos.GET("/:id/error-budget", handler.GetErrorBudget)
+		}
 	}
 }
 
